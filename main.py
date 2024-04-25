@@ -1,10 +1,14 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from sensor import sensors
+from pydantic import BaseModel
+from models import Sensor
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import io
 import datetime
+
+
 
 app = FastAPI()
 
@@ -30,6 +34,10 @@ def allSensors():
             tmpDict[y] = tmpValues
         xdict[x] = tmpDict
     return xdict
+
+@app.post("/addNewSensor")
+def createNewSensor(sensor: Sensor):
+    return sensor
 
 @app.get("/zoneSensors")
 def zoneSensors(zone):
